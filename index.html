@@ -1,60 +1,120 @@
 <!doctype html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
-        <meta name="mobile-web-app-capable" content="yes">
-        <meta name="apple-mobile-web-app-capable" content="yes">
-        <link rel="stylesheet" href="css/leaflet.css">
-        <link rel="stylesheet" href="css/qgis2web.css"><link rel="stylesheet" href="css/fontawesome-all.min.css">
-        <style>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <link rel="stylesheet" href="css/leaflet.css">
+    <link rel="stylesheet" href="css/leaflet-sidebar.min.css" />
+    <link rel="stylesheet" href="css/qgis2web.css">
+    <link rel="stylesheet" href="css/fontawesome-all.min.css">
+    <style>
         html, body, #map {
             width: 100%;
             height: 100%;
             padding: 0;
             margin: 0;
         }
-        </style>
-        <title></title>
-    </head>
-    <body>
-        <div id="map">
+        .sidebar {
+            position: absolute;
+            height: 100%;
+            left: 0;
+            top: 0;
+            border-bottom-width: 0 !important;
+            border-top-width: 0 !important;
+            border-left-width: 0 !important;
+        }
+
+    </style>
+    <title></title>
+</head>
+<body>
+    <div id="map">
+    </div>
+                                                                   <!-- BARRA LATERAL -->
+    <div id="sidebar" class="sidebar collapsed">
+        <!-- Nav tabs -->
+        <div class="sidebar-tabs">
+            <ul role="tablist">
+                <li><a href="#home" role="tab"><i class="fa fa-bars"></i></a></li>
+
+            </ul>
+
+            <ul role="tablist">
+                <li><a href="#settings" role="tab"><i class="fa fa-gear"></i></a></li>
+            </ul>
         </div>
-        <script src="js/qgis2web_expressions.js"></script>
-        <script src="js/leaflet.js"></script>
-        <script src="js/leaflet.rotatedMarker.js"></script>
-        <script src="js/leaflet.pattern.js"></script>
-        <script src="js/leaflet-hash.js"></script>
-        <script src="js/Autolinker.min.js"></script>
-        <script src="js/rbush.min.js"></script>
-        <script src="js/labelgun.min.js"></script>
-        <script src="js/labels.js"></script>
-        <script src="data/Lmitecomunal_1.js"></script>
-        <script src="data/LocalidadesRurales_2.js"></script>
-        <script src="data/TtulosdemercedComunidadesindgenas_3.js"></script>
-        <script>
+
+        <!-- Tab panes -->
+        <div class="sidebar-content">
+            <div class="sidebar-pane" id="home">
+                <h1 class="sidebar-header">
+                    <font face="Verdana">Comuna de Nueva Imperial</font>
+                    <span class="sidebar-close"><i class="fa fa-caret-left"></i></span>
+                </h1>
+
+
+
+                <p class="lorem"><font face="Calibri">A continuación, un bosquejo inicial de un visor territorial para la comuna de Nueva Imperial. Este apartado puede contener información relevante para una serie de temáticas.</font></p>
+
+
+            </div>
+
+            <div class="sidebar-pane" id="profile">
+                <h1 class="sidebar-header">Profile<span class="sidebar-close"><i class="fa fa-caret-left"></i></span></h1>
+            </div>
+
+            <div class="sidebar-pane" id="messages">
+                <h1 class="sidebar-header">Messages<span class="sidebar-close"><i class="fa fa-caret-left"></i></span></h1>
+            </div>
+
+            <div class="sidebar-pane" id="settings">
+                <h1 class="sidebar-header">Settings<span class="sidebar-close"><i class="fa fa-caret-left"></i></span></h1>
+            </div>
+        </div>
+    </div>
+
+    <div id="map" class="sidebar-map"></div>
+                                                             <!-- FIN BARRA LATERAL -->
+
+    <script src="js/qgis2web_expressions.js"></script>
+    <script src="js/leaflet.js"></script>
+    <link rel="stylesheet" href="css/leaflet-sidebar.min.css" />
+    <script src="js/leaflet.rotatedMarker.js"></script>
+    <script src="js/leaflet.pattern.js"></script>
+    <script src="js/leaflet-hash.js"></script>
+    <script src="js/Autolinker.min.js"></script>
+    <script src="js/rbush.min.js"></script>
+    <script src="js/labelgun.min.js"></script>
+    <script src="js/labels.js"></script>
+    <script src="data/Lmitecomunal_1.js"></script>
+    <script src="data/LocalidadesRurales_2.js"></script>
+    <script src="data/TtulosdemercedComunidadesindgenas_3.js"></script>
+    <script src="js/leaflet-sidebar.min.js"></script>
+    <script>
         var highlightLayer;
         function highlightFeature(e) {
             highlightLayer = e.target;
 
             if (e.target.feature.geometry.type === 'LineString') {
-              highlightLayer.setStyle({
-                color: '#ffff00',
-              });
+                highlightLayer.setStyle({
+                    color: '#D85959',
+                });
             } else {
-              highlightLayer.setStyle({
-                fillColor: '#ffff00',
-                fillOpacity: 1
-              });
+                highlightLayer.setStyle({
+                    fillColor: '#D85959',
+                    fillOpacity: 0.5
+                });
             }
         }
         var map = L.map('map', {
-            zoomControl:true, maxZoom:12, minZoom:10
-        }).fitBounds([[-38.919457451393505,-73.1810206422519],[-38.47984236569316,-72.67193682768946]]);
+            zoomControl: false, maxZoom: 13, minZoom: 10
+        }).fitBounds([[-38.919457451393505, -73.1810206422519], [-38.47984236569316, -72.67193682768946]]);
         var hash = new L.Hash(map);
         map.attributionControl.setPrefix('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
-        var autolinker = new Autolinker({truncate: {length: 30, location: 'smart'}});
+        var autolinker = new Autolinker({ truncate: { length: 30, location: 'smart' } });
         var bounds_group = new L.featureGroup([]);
         function setBounds() {
             map.setMaxBounds(map.getBounds());
@@ -66,15 +126,19 @@
             opacity: 1.0,
             attribution: '',
             minZoom: 10,
-            maxZoom: 12,
+            maxZoom: 13,
             minNativeZoom: 0,
             maxNativeZoom: 18
         });
+
+        L.control.zoom({ position: "bottomright" }).addTo(map);
+
+
         layer_ESRIMaps_0;
         map.addLayer(layer_ESRIMaps_0);
         function pop_Lmitecomunal_1(feature, layer) {
             layer.on({
-                mouseout: function(e) {
+                mouseout: function (e) {
                     for (i in e.target._eventParents) {
                         e.target._eventParents[i].resetStyle(e.target);
                     }
@@ -82,24 +146,26 @@
                 mouseover: highlightFeature,
             });
             var popupContent = '<table>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['Localidad'] !== null ? autolinker.link(feature.properties['Localidad'].toLocaleString()) : '') + '</td>\
-                    </tr>\
-                </table>';
-            layer.bindPopup(popupContent, {maxHeight: 400});
+                                    <tr>\
+                                        <td colspan="2">' + (feature.properties['Localidad'] !== null ? autolinker.link(feature.properties['Localidad'].toLocaleString()) : '') + '</td>\
+                                    </tr>\
+                                </table>';
+            layer.bindPopup(popupContent, { maxHeight: 400 });
         }
+
+        var sidebar = L.control.sidebar('sidebar', { position: 'left' }).addTo(map);
 
         function style_Lmitecomunal_1_0() {
             return {
                 pane: 'pane_Lmitecomunal_1',
-                opacity: 1,
+                opacity: 0.8,
                 color: 'rgba(219,58,58,1.0)',
                 dashArray: '10,5',
                 lineCap: 'butt',
                 lineJoin: 'miter',
-                weight: 4.0, 
-                fill: true,
-                fillOpacity: 1,
+                weight: 4.0,
+                fill: false,
+                fillOpacity: 0.8,
                 fillColor: 'rgba(229,182,54,0.0)',
                 interactive: false,
             }
@@ -120,7 +186,7 @@
         map.addLayer(layer_Lmitecomunal_1);
         function pop_LocalidadesRurales_2(feature, layer) {
             layer.on({
-                mouseout: function(e) {
+                mouseout: function (e) {
                     for (i in e.target._eventParents) {
                         e.target._eventParents[i].resetStyle(e.target);
                     }
@@ -128,29 +194,29 @@
                 mouseover: highlightFeature,
             });
             var popupContent = '<table>\
-                    <tr>\
-                        <th scope="row">Nombre localidad</th>\
-                        <td>' + (feature.properties['Nombre localidad'] !== null ? autolinker.link(feature.properties['Nombre localidad'].toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <th scope="row">Código INE</th>\
-                        <td>' + (feature.properties['Código INE'] !== null ? autolinker.link(feature.properties['Código INE'].toLocaleString()) : '') + '</td>\
-                    </tr>\
-                </table>';
-            layer.bindPopup(popupContent, {maxHeight: 400});
+                                    <tr>\
+                                        <th scope="row">Nombre localidad:</th>\
+                                        <td>' + (feature.properties['Nombre localidad'] !== null ? autolinker.link(feature.properties['Nombre localidad'].toLocaleString()) : '') + '</td>\
+                                    </tr>\
+                                    <tr>\
+                                        <th scope="row">Código INE:</th>\
+                                        <td>' + (feature.properties['Código INE'] !== null ? autolinker.link(feature.properties['Código INE'].toLocaleString()) : '') + '</td>\
+                                    </tr>\
+                                </table>';
+            layer.bindPopup(popupContent, { maxHeight: 400 });
         }
 
         function style_LocalidadesRurales_2_0() {
             return {
                 pane: 'pane_LocalidadesRurales_2',
-                opacity: 1,
+                opacity: 0.8,
                 color: 'rgba(35,35,35,1.0)',
                 dashArray: '',
                 lineCap: 'butt',
                 lineJoin: 'miter',
-                weight: 1.0, 
+                weight: 1.0,
                 fill: true,
-                fillOpacity: 1,
+                fillOpacity: 0.8,
                 fillColor: 'rgba(89,203,225,1.0)',
                 interactive: true,
             }
@@ -171,7 +237,7 @@
         map.addLayer(layer_LocalidadesRurales_2);
         function pop_TtulosdemercedComunidadesindgenas_3(feature, layer) {
             layer.on({
-                mouseout: function(e) {
+                mouseout: function (e) {
                     for (i in e.target._eventParents) {
                         e.target._eventParents[i].resetStyle(e.target);
                     }
@@ -179,16 +245,16 @@
                 mouseover: highlightFeature,
             });
             var popupContent = '<table>\
-                    <tr>\
-                        <th scope="row">Nombre com</th>\
-                        <td>' + (feature.properties['Nombre com'] !== null ? autolinker.link(feature.properties['Nombre com'].toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <th scope="row">TM</th>\
-                        <td>' + (feature.properties['TM'] !== null ? autolinker.link(feature.properties['TM'].toLocaleString()) : '') + '</td>\
-                    </tr>\
-                </table>';
-            layer.bindPopup(popupContent, {maxHeight: 400});
+                                    <tr>\
+                                        <th scope="row">Nombre comunidad:</th>\
+                                        <td>' + (feature.properties['Nombre com'] !== null ? autolinker.link(feature.properties['Nombre com'].toLocaleString()) : '') + '</td>\
+                                    </tr>\
+                                    <tr>\
+                                        <th scope="row">TM:</th>\
+                                        <td>' + (feature.properties['TM'] !== null ? autolinker.link(feature.properties['TM'].toLocaleString()) : '') + '</td>\
+                                    </tr>\
+                                </table>';
+            layer.bindPopup(popupContent, { maxHeight: 400 });
         }
 
         function style_TtulosdemercedComunidadesindgenas_3_0() {
@@ -199,9 +265,9 @@
                 dashArray: '',
                 lineCap: 'butt',
                 lineJoin: 'miter',
-                weight: 1, 
+                weight: 0.2,
                 fill: true,
-                fillOpacity: 1,
+                fillOpacity: 0.8,
                 fillColor: 'rgba(244,255,141,1.0)',
                 interactive: true,
             }
@@ -220,9 +286,9 @@
         });
         bounds_group.addLayer(layer_TtulosdemercedComunidadesindgenas_3);
         map.addLayer(layer_TtulosdemercedComunidadesindgenas_3);
-        var baseMaps = {};
-        L.control.layers(baseMaps,{'<img src="legend/TtulosdemercedComunidadesindgenas_3.png" /> Títulos de merced (Comunidades indígenas)': layer_TtulosdemercedComunidadesindgenas_3,'<img src="legend/LocalidadesRurales_2.png" /> Localidades Rurales': layer_LocalidadesRurales_2,'<img src="legend/Lmitecomunal_1.png" /> Límite comunal': layer_Lmitecomunal_1,"ESRI Maps": layer_ESRIMaps_0,},{collapsed:false}).addTo(map);
+        var baseMaps = { "Mapa Base - ESRI Maps": layer_ESRIMaps_0};
+        L.control.layers(baseMaps, { '<img src="legend/TtulosdemercedComunidadesindgenas_3.png" /> Títulos de merced (Comunidades indígenas)': layer_TtulosdemercedComunidadesindgenas_3, '<img src="legend/LocalidadesRurales_2.png" /> Localidades Rurales': layer_LocalidadesRurales_2, '<img src="legend/Lmitecomunal_1.png" /> Límite comunal': layer_Lmitecomunal_1, }, { collapsed: false }).addTo(map);
         setBounds();
-        </script>
-    </body>
+    </script>
+</body>
 </html>
